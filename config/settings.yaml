@@ -1,0 +1,7 @@
+poll_interval_seconds: 5
+ollama_endpoint: "http://localhost:11434"
+ollama_model: "llama3"
+db_path: "~/.netwatch/netwatch.db"
+rules_path: "config/rules.yaml"
+log_level: "INFO"
+theme: "light"

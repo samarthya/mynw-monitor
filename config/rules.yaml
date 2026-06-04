@@ -1,0 +1,32 @@
+productive:
+  - "github.com"
+  - "*.github.com"
+  - "stackoverflow.com"
+  - "*.atlassian.net"
+  - "docs.python.org"
+  - "*.slack.com"
+  - "*.notion.so"
+
+distracting:
+  - "youtube.com"
+  - "*.youtube.com"
+  - "instagram.com"
+  - "*.instagram.com"
+  - "reddit.com"
+  - "*.reddit.com"
+  - "x.com"
+  - "*.x.com"
+
+background:
+  - "*.icloud.com"
+  - "*.dropbox.com"
+  - "*.googleusercontent.com"
+  - "*.akamaiedge.net"
+  - "*.fastly.net"
+
+system:
+  - "localhost"
+  - "*.local"
+  - "*.apple.com"
+  - "*.microsoft.com"
+  - "*.windowsupdate.com"
