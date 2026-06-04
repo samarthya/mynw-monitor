@@ -24,6 +24,18 @@ def run_app() -> None:
     st.markdown(GLOBAL_CSS, unsafe_allow_html=True)
 
     settings = Settings.load()
+    if settings.theme.lower() == "dark":
+        st.markdown(
+            """
+            <style>
+              [data-testid="stAppViewContainer"] { background-color: #111827; color: #F9FAFB; }
+              [data-testid="stSidebar"] { background-color: #0F172A; color: #F9FAFB; }
+              .metric-card { background: #1F2937; }
+            </style>
+            """,
+            unsafe_allow_html=True,
+        )
+
     st.sidebar.title("NetWatch")
     page = st.sidebar.radio("Page", ["Today", "History", "Rules", "Settings"])
 
@@ -154,7 +166,7 @@ def _render_settings(settings: Settings) -> None:
     )
     ollama_endpoint = st.text_input("Ollama endpoint", value=settings.ollama_endpoint)
     ollama_model = st.text_input("Ollama model", value=settings.ollama_model)
-    dark_mode = st.toggle("Dark mode", value=False)
+    dark_mode = st.toggle("Dark mode", value=settings.theme.lower() == "dark")
 
     if st.button("Save settings"):
         settings_path = Path(__file__).resolve().parents[2] / "config" / "settings.yaml"

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import atexit
 import socket
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
 from functools import lru_cache
@@ -7,6 +8,7 @@ from functools import lru_cache
 from netwatch.shared.models import ConnectionEvent
 
 _EXECUTOR = ThreadPoolExecutor(max_workers=4)
+atexit.register(_EXECUTOR.shutdown, wait=False, cancel_futures=True)
 
 
 @lru_cache(maxsize=2000)

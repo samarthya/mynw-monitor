@@ -64,7 +64,7 @@ class DomainClassifier:
                 response = client.post(url, json=payload)
                 response.raise_for_status()
                 data = response.json()
-        except (httpx.HTTPError, ValueError, Exception) as exc:
+        except Exception as exc:  # noqa: BLE001
             logger.warning("Ollama unavailable; using unknown for %s (%s)", hostname, exc)
             return "unknown"
 

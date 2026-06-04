@@ -16,6 +16,7 @@ class Settings:
     db_path: str = "~/.netwatch/netwatch.db"
     rules_path: str = "config/rules.yaml"
     log_level: str = "INFO"
+    theme: str = "light"
 
     @classmethod
     def load(cls) -> Settings:
@@ -66,6 +67,7 @@ def _read_env_overrides() -> dict[str, Any]:
         "NETWATCH_DB_PATH": "db_path",
         "NETWATCH_RULES_PATH": "rules_path",
         "NETWATCH_LOG_LEVEL": "log_level",
+        "NETWATCH_THEME": "theme",
     }
 
     out: dict[str, Any] = {}
