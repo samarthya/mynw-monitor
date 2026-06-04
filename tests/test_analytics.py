@@ -13,7 +13,6 @@ from netwatch.analytics.engine import (
 from netwatch.shared.models import ConnectionEvent
 
 
-
 def _event(ts: datetime, hostname: str, category: str) -> ConnectionEvent:
     return ConnectionEvent(
         timestamp=ts,
@@ -36,8 +35,12 @@ def test_productivity_score_and_top_domains(tmp_path: Path) -> None:
     base = datetime(2026, 1, 10, 10, 0, 0)
 
     insert_connection_event(_event(base, "github.com", "productive"), db_path)
-    insert_connection_event(_event(base + timedelta(minutes=5), "github.com", "productive"), db_path)
-    insert_connection_event(_event(base + timedelta(minutes=10), "youtube.com", "distracting"), db_path)
+    insert_connection_event(
+        _event(base + timedelta(minutes=5), "github.com", "productive"), db_path
+    )
+    insert_connection_event(
+        _event(base + timedelta(minutes=10), "youtube.com", "distracting"), db_path
+    )
 
     score = get_productivity_score(date(2026, 1, 10), db_path=db_path)
     assert round(score.score, 2) == 66.67

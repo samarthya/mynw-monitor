@@ -15,10 +15,20 @@ GLOBAL_CSS: str = """
 <style>
   [data-testid="stAppViewContainer"] { font-family: Inter, system-ui, sans-serif; }
   .metric-card { background: #f8f8f6; border-radius: 10px; padding: 1rem; }
-  .badge-productive { background:#E1F5EE; color:#0F6E56; border-radius:6px; padding:2px 8px; font-size:12px; }
-  .badge-distracting { background:#FAECE7; color:#993C1D; border-radius:6px; padding:2px 8px; font-size:12px; }
-  .badge-background  { background:#F1EFE8; color:#5F5E5A; border-radius:6px; padding:2px 8px; font-size:12px; }
-  .badge-system      { background:#E6F1FB; color:#185FA5; border-radius:6px; padding:2px 8px; font-size:12px; }
-  .badge-unknown     { background:#F1EFE8; color:#888780; border-radius:6px; padding:2px 8px; font-size:12px; }
+  .badge-productive {
+    background:#E1F5EE; color:#0F6E56; border-radius:6px; padding:2px 8px; font-size:12px;
+  }
+  .badge-distracting {
+    background:#FAECE7; color:#993C1D; border-radius:6px; padding:2px 8px; font-size:12px;
+  }
+  .badge-background  {
+    background:#F1EFE8; color:#5F5E5A; border-radius:6px; padding:2px 8px; font-size:12px;
+  }
+  .badge-system      {
+    background:#E6F1FB; color:#185FA5; border-radius:6px; padding:2px 8px; font-size:12px;
+  }
+  .badge-unknown     {
+    background:#F1EFE8; color:#888780; border-radius:6px; padding:2px 8px; font-size:12px;
+  }
 </style>
 """

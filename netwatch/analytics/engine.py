@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import sqlite3
+from contextlib import closing
 from dataclasses import dataclass
 from datetime import date, datetime, time, timedelta
 from pathlib import Path
-from typing import Iterable
 
 from netwatch.shared.config import Settings
 from netwatch.shared.models import DayStat, DomainStat, HourlyBucket, ProductivityScore
@@ -23,7 +23,7 @@ def get_hourly_breakdown(
     end_dt: datetime | None = None,
     db_path: str | Path | None = None,
 ) -> list[HourlyBucket]:
-    start, end = _effective_range(target_date, start_dt, end_dt)
+    range_ = _effective_range(target_date, start_dt, end_dt)
     query = """
         SELECT
             CAST(strftime('%H', timestamp) AS INTEGER) AS hour,
@@ -44,8 +44,11 @@ def get_hourly_breakdown(
         for hour in range(24)
     }
 
-    with _connect(db_path) as conn:
-        rows = conn.execute(query, (_sample_seconds(), start.isoformat(), end.isoformat())).fetchall()
+    with closing(_connect(db_path)) as conn:
+        rows = conn.execute(
+            query,
+            (_sample_seconds(), range_.start.isoformat(), range_.end.isoformat()),
+        ).fetchall()
 
     for row in rows:
         category = row["category"]
@@ -98,7 +101,7 @@ def get_top_domains(
         LIMIT ?
     """
 
-    with _connect(db_path) as conn:
+    with closing(_connect(db_path)) as conn:
         rows = conn.execute(query, params).fetchall()
 
     return [
@@ -119,9 +122,9 @@ def get_productivity_score(
     end_dt: datetime | None = None,
     db_path: str | Path | None = None,
 ) -> ProductivityScore:
-    start, end = _effective_range(target_date, start_dt, end_dt)
+    range_ = _effective_range(target_date, start_dt, end_dt)
 
-    with _connect(db_path) as conn:
+    with closing(_connect(db_path)) as conn:
         rows = conn.execute(
             """
             SELECT category, COUNT(*) * ? AS seconds
@@ -129,7 +132,7 @@ def get_productivity_score(
             WHERE timestamp >= ? AND timestamp < ?
             GROUP BY category
             """,
-            (_sample_seconds(), start.isoformat(), end.isoformat()),
+            (_sample_seconds(), range_.start.isoformat(), range_.end.isoformat()),
         ).fetchall()
 
     seconds = {"productive": 0, "distracting": 0, "unknown": 0}
@@ -201,8 +204,10 @@ def get_weekly_trend(
 
 
 
-def _get_daily_counts(start_day: date, end_day: date, db_path: str | Path | None) -> dict[date, dict[str, int]]:
-    with _connect(db_path) as conn:
+def _get_daily_counts(
+    start_day: date, end_day: date, db_path: str | Path | None
+) -> dict[date, dict[str, int]]:
+    with closing(_connect(db_path)) as conn:
         rows = conn.execute(
             """
             SELECT DATE(timestamp) AS day, category, COUNT(*) * ? AS seconds
@@ -234,7 +239,9 @@ def _get_daily_counts(start_day: date, end_day: date, db_path: str | Path | None
 
 
 
-def _effective_range(target_date: date, start_dt: datetime | None, end_dt: datetime | None) -> _TimeRange:
+def _effective_range(
+    target_date: date, start_dt: datetime | None, end_dt: datetime | None
+) -> _TimeRange:
     start = start_dt or datetime.combine(target_date, time.min)
     end = end_dt or (start + timedelta(days=1))
     return _TimeRange(start=start, end=end)

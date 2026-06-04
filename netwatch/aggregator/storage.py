@@ -85,7 +85,9 @@ def get_cached_category(hostname: str, db_path: str | Path | None = None) -> Cat
 
 
 
-def set_cached_category(hostname: str, category: Category, db_path: str | Path | None = None) -> None:
+def set_cached_category(
+    hostname: str, category: Category, db_path: str | Path | None = None
+) -> None:
     with get_db(db_path) as conn:
         conn.execute(
             """

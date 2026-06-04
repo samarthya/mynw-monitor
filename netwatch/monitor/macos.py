@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import asyncio
 import subprocess
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import psutil
@@ -31,7 +31,7 @@ class MacOSMonitor(AbstractMonitor):
     async def collect_once(self) -> list[ConnectionEvent]:
         lsof_map = await asyncio.to_thread(self._read_lsof_process_map)
         snapshot = await asyncio.to_thread(psutil.net_connections, "inet")
-        now = datetime.now(tz=timezone.utc)
+        now = datetime.now(tz=UTC)
 
         events: list[ConnectionEvent] = []
         for conn in snapshot:

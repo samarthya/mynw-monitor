@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import socket
 from concurrent.futures import ThreadPoolExecutor, TimeoutError
 from functools import lru_cache
-import socket
 
 from netwatch.shared.models import ConnectionEvent
 

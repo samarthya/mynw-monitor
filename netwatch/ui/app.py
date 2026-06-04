@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-from datetime import date, datetime, time, timedelta
+from datetime import date
 from pathlib import Path
 
 import pandas as pd
@@ -17,7 +17,6 @@ from netwatch.analytics.engine import (
 )
 from netwatch.shared.config import Settings
 from netwatch.shared.theme import CATEGORY_COLORS, CHART_PALETTE, GLOBAL_CSS
-
 
 
 def run_app() -> None:
@@ -48,7 +47,8 @@ def _render_today(settings: Settings) -> None:
     with col1:
         st.metric("Productivity Score", f"{score.score:.1f}%")
         st.caption(
-            f"Productive: {score.productive_seconds}s | Distracting: {score.distracting_seconds}s | "
+            f"Productive: {score.productive_seconds}s | "
+            f"Distracting: {score.distracting_seconds}s | "
             f"Unknown: {score.unknown_seconds}s"
         )
 

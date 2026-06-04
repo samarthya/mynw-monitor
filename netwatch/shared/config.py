@@ -18,7 +18,7 @@ class Settings:
     log_level: str = "INFO"
 
     @classmethod
-    def load(cls) -> "Settings":
+    def load(cls) -> Settings:
         project_root = get_project_root()
         load_dotenv(project_root / ".env", override=False)
 
